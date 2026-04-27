@@ -32,3 +32,48 @@
 # ****  TOTAL                                                                                 0.25%  0 sequences failed composition chi2 test (p-value<5%; df=19)
 # WARNING: Sequence A/Shanxi-Taiyuan/OFV3363/2024|EPI_ISL_19676903|PB2|EPI3818724 contains only gaps or missing data
 # ERROR: Some sequences (see above) are problematic, please check your alignment again
+
+
+# Create files for removing sequences
+@"
+A/Shanghai/1943/2019|EPI_ISL_365644|PB1|EPI1494886
+A/Llandeilo/1744/2022|EPI_ISL_15505097|PB1|EPI2197038
+A/Cornelly/7109/2022|EPI_ISL_15505736|PB1|EPI2197071
+A/Barry/9660/2019|EPI_ISL_350696|PB1|EPI1414716
+A/Wrexham/1126/2019|EPI_ISL_350699|PB1|EPI1414726
+"@ | Set-Content E:/influenza/PB1_bad_ids.txt
+
+@"
+A/Shanxi-Taiyuan/OFV3363/2024|EPI_ISL_19676903|PB2|EPI3818724
+"@ | Set-Content E:/influenza/PB2_bad_ids.txt
+
+# Remove bad sequences from alignment
+seqkit grep -v -f E:/influenza/PB1_bad_ids.txt `
+  E:/influenza/China_UK_PB1_AA_aligned.fasta `
+  -o E:/influenza/China_UK_PB1_AA_aligned_clean.fasta
+
+seqkit grep -v -f E:/influenza/PB2_bad_ids.txt `
+  E:/influenza/China_UK_PB2_AA_aligned.fasta `
+  -o E:/influenza/China_UK_PB2_AA_aligned_clean.fasta
+
+
+# Rerun the tree construction
+& "C:\iqtree-2.4.0-Windows\bin\iqtree2.exe" `
+  -s "E:\influenza\China_UK_PB1_AA_aligned_clean.fasta" `
+  -st AA `
+  -m MFP `
+  -B 1000 `
+  -alrt 1000 `
+  -nt AUTO `
+  -pre "E:\influenza\IQTREE_PB1_AA_clean"
+
+
+& "C:\iqtree-2.4.0-Windows\bin\iqtree2.exe" `
+  -s "E:\influenza\China_UK_PB2_AA_aligned_clean.fasta" `
+  -st AA `
+  -m MFP `
+  -B 1000 `
+  -alrt 1000 `
+  -nt AUTO `
+  -pre "E:\influenza\IQTREE_PB2_AA_clean"
+  
