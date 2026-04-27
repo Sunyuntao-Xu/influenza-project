@@ -9,6 +9,7 @@
   -pre "E:\influenza\IQTREE_PB1_AA"
 
 
+# WARNING: 48 sequences contain more than 50% gaps/ambiguity
 # ****  TOTAL                                                                                23.14%  1 sequences failed composition chi2 test (p-value<5%; df=19)
 # WARNING: Sequence A/Shanghai/1943/2019|EPI_ISL_365644|PB1|EPI1494886 contains only gaps or missing data
 # WARNING: Sequence A/Llandeilo/1744/2022|EPI_ISL_15505097|PB1|EPI2197038 contains only gaps or missing data
