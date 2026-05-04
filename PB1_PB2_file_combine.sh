@@ -27,3 +27,9 @@ seqkit stats China_UK_PB2_NT.fasta China_UK_PB2_NT_lenfiltered.fasta
 
 # PB1: 6443 → 6337   removed 106 sequences
 # PB2: 6441 → 6391   removed 50 sequences
+
+
+# Remove invalid sequence code
+seqkit replace -s -p "[^ACGTNacgtn]" -r "N" China_UK_PB1_NT_lenfiltered.fasta -o China_UK_PB1_NT_lenfiltered_clean.fasta
+
+seqkit replace -s -p "[^ACGTNacgtn]" -r "N" China_UK_PB2_NT_lenfiltered.fasta -o China_UK_PB2_NT_lenfiltered_clean.fasta
