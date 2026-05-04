@@ -64,10 +64,13 @@ seqkit fx2tab China_UK_PB2_NT_lenfiltered.fasta |
     }
   } |
   seqkit tab2fx -o China_UK_PB2_NT_len_N10_filtered.fasta
-  
+
+
+seqkit stats China_UK_PB1_NT_lenfiltered.fasta China_UK_PB1_NT_len_N10_filtered.fasta
+seqkit stats China_UK_PB2_NT_lenfiltered.fasta China_UK_PB2_NT_len_N10_filtered.fasta
 
 
 # Remove invalid sequence code
-seqkit replace -s -p "[^ACGTNacgtn]" -r "N" China_UK_PB1_NT_lenfiltered.fasta -o China_UK_PB1_NT_lenfiltered_clean.fasta
+seqkit replace -s -p "[^ACGTNacgtn]" -r "N" China_UK_PB1_NT_len_N10_filtered.fasta -o China_UK_PB1_NT_lenfiltered_clean.fasta
 
-seqkit replace -s -p "[^ACGTNacgtn]" -r "N" China_UK_PB2_NT_lenfiltered.fasta -o China_UK_PB2_NT_lenfiltered_clean.fasta
+seqkit replace -s -p "[^ACGTNacgtn]" -r "N" China_UK_PB2_NT_len_N10_filtered.fasta -o China_UK_PB2_NT_lenfiltered_clean.fasta
