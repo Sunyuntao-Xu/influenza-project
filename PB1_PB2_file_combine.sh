@@ -24,3 +24,6 @@ seqkit stats China_UK_PB2_NT.fasta China_UK_PB2_NT_lenfiltered.fasta
 # file                               format  type  num_seqs     sum_len  min_len  avg_len  max_len
 # China_UK_PB2_NT.fasta              FASTA   DNA      6,441  14,730,472      746    2,287    3,013
 # China_UK_PB2_NT_lenfiltered.fasta  FASTA   DNA      6,391  14,626,311    2,205  2,288.6    2,371
+
+# PB1: 6443 → 6337   removed 106 sequences
+# PB2: 6441 → 6391   removed 50 sequences
