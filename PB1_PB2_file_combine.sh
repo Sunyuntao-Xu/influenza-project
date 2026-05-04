@@ -29,6 +29,44 @@ seqkit stats China_UK_PB2_NT.fasta China_UK_PB2_NT_lenfiltered.fasta
 # PB2: 6441 → 6391   removed 50 sequences
 
 
+
+# Remove sequences with more than 10% N
+
+# PB1
+seqkit fx2tab China_UK_PB1_NT_lenfiltered.fasta |
+  ForEach-Object {
+    $cols = $_ -split "`t"
+    $name = $cols[0]
+    $seq  = $cols[1].ToUpper()
+
+    $nCount = ([regex]::Matches($seq, "N")).Count
+    $nProp  = $nCount / $seq.Length
+
+    if ($nProp -le 0.10) {
+      "$name`t$seq"
+    }
+  } |
+  seqkit tab2fx -o China_UK_PB1_NT_len_N10_filtered.fasta
+
+
+# PB2
+seqkit fx2tab China_UK_PB2_NT_lenfiltered.fasta |
+  ForEach-Object {
+    $cols = $_ -split "`t"
+    $name = $cols[0]
+    $seq  = $cols[1].ToUpper()
+
+    $nCount = ([regex]::Matches($seq, "N")).Count
+    $nProp  = $nCount / $seq.Length
+
+    if ($nProp -le 0.10) {
+      "$name`t$seq"
+    }
+  } |
+  seqkit tab2fx -o China_UK_PB2_NT_len_N10_filtered.fasta
+  
+
+
 # Remove invalid sequence code
 seqkit replace -s -p "[^ACGTNacgtn]" -r "N" China_UK_PB1_NT_lenfiltered.fasta -o China_UK_PB1_NT_lenfiltered_clean.fasta
 
