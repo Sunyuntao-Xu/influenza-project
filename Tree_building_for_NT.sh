@@ -42,3 +42,14 @@ seqkit rmdup -n `
   -alrt 1000 `
   -nt AUTO `
   -pre "E:\influenza\IQTREE_NT\IQTREE_PB2_NT_trimmed_dedup"
+
+
+# PA NT tree
+& "C:\iqtree-2.4.0-Windows\bin\iqtree2.exe" `
+  -s "E:\influenza\China_UK_PA_NT_aligned_trimmed_dedup.fasta" `
+  -st DNA `
+  -m MFP `
+  -B 1000 `
+  -alrt 1000 `
+  -nt AUTO `
+  -pre "E:\influenza\IQTREE_NT\IQTREE_PA_NT_trimmed_dedup"
