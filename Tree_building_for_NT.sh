@@ -14,6 +14,13 @@ seqkit rmdup -n `
 
 # [INFO] 26 duplicated records removed
 
+seqkit rmdup -n `
+  -D "E:\influenza\PA_NT_duplicate_names.txt" `
+  "E:\influenza\China_UK_PA_NT_aligned_trimmed.fasta" `
+  -o "E:\influenza\China_UK_PA_NT_aligned_trimmed_dedup.fasta"
+
+# [INFO] 25 duplicated records removed
+  
 
 # PB1 NT tree
 & "C:\iqtree-2.4.0-Windows\bin\iqtree2.exe" `
