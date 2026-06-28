@@ -84,3 +84,54 @@ seqkit stats China_UK_PB1_NT_aligned.fasta China_UK_PB1_NT_aligned_trimmed.fasta
 
 seqkit subseq -r 45:2400 China_UK_PB1_NT_aligned.fasta -o China_UK_PB1_NT_aligned_trimmed.fasta
 seqkit stats China_UK_PB2_NT_aligned.fasta China_UK_PB2_NT_aligned_trimmed.fasta
+
+
+cd E:\influenza
+
+# Merge China and UK PA nucleotide FASTA files
+Get-Content China_PA_NT.fasta, UK_PA_NT.fasta | Set-Content China_UK_PA_NT.fasta
+
+
+# Remove problematic sequences based on length
+# PA expected length is around 2233 bp, so keep near-full-length sequences
+seqkit seq -m 2100 -M 2350 China_UK_PA_NT.fasta -o China_UK_PA_NT_lenfiltered.fasta
+
+seqkit stats China_UK_PA_NT.fasta China_UK_PA_NT_lenfiltered.fasta
+
+
+# Remove sequences with more than 10% N
+
+seqkit fx2tab China_UK_PA_NT_lenfiltered.fasta |
+  ForEach-Object {
+    $cols = $_ -split "`t"
+    $name = $cols[0]
+    $seq  = $cols[1].ToUpper()
+
+    $nCount = ([regex]::Matches($seq, "N")).Count
+    $nProp  = $nCount / $seq.Length
+
+    if ($nProp -le 0.10) {
+      "$name`t$seq"
+    }
+  } |
+  seqkit tab2fx -o China_UK_PA_NT_len_N10_filtered.fasta
+
+
+# Check how many sequences were removed by N filtering
+seqkit stats China_UK_PA_NT_lenfiltered.fasta China_UK_PA_NT_len_N10_filtered.fasta
+
+
+# Replace invalid sequence codes with N
+seqkit replace -s -p "[^ACGTNacgtn]" -r "N" China_UK_PA_NT_len_N10_filtered.fasta -o China_UK_PA_NT_lenfiltered_clean.fasta
+
+# Final check
+seqkit stats China_UK_PA_NT.fasta China_UK_PA_NT_lenfiltered.fasta China_UK_PA_NT_len_N10_filtered.fasta China_UK_PA_NT_lenfiltered_clean.fasta
+
+
+PS E:\influenza> seqkit stats China_UK_PA_NT.fasta China_UK_PA_NT_lenfiltered.fasta China_UK_PA_NT_len_N10_filtered.fasta China_UK_PA_NT_lenfiltered_clean.fasta
+processed files:  4 / 4 [======================================] ETA: 0s. done
+file                                    format  type  num_seqs     sum_len  min_len  avg_len  max_len
+China_UK_PA_NT.fasta                    FASTA   DNA      6,232  13,469,600      749  2,161.4    2,989
+China_UK_PA_NT_lenfiltered.fasta        FASTA   DNA      6,188  13,387,983    2,100  2,163.5    2,336
+China_UK_PA_NT_len_N10_filtered.fasta   FASTA   DNA      6,184  13,379,323    2,100  2,163.5    2,336
+China_UK_PA_NT_lenfiltered_clean.fasta  FASTA   DNA      6,184  13,379,323    2,100  2,163.5    2,336
